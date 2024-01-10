@@ -1,0 +1,26 @@
+global:
+  scrape_interval:     15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'node-app-configs'
+    static_configs:
+      - targets: [ "app:5900","node-exporter:9100","kafka-lag-exporter:9999","rarible_runner_polygon:8000","rarible_runner_etherem:8000","rarible_runner_flow:8000","rarible_runner_tezos:8000","rarible_runner_solana:8000","rarible_runner_immutablex:8000","rarible_runner_mantle:8000","rarible_runner_arbitrum:8000","rarible_runner_chiliz:8000","rarible_runner_lightlink:8000","rarible_runner_zksync:8000","rarible_runner_astarzkevm:8000","rarible_runner_base:8000","rarible_runner_rari:8000"]
+      
+  - job_name: 'zookeeper'
+    static_configs:
+      - targets: ["zookeeper:1234" ]
+        labels:
+          env: "dev"
+  - job_name: 'kafka'
+    static_configs:
+      - targets: ["broker:1236" ]
+        labels:
+          env: "dev"
+  - job_name: 'connect'
+    static_configs:
+      - targets: ["kafka-connect:1235" ]
+        labels:
+          cluster: "cluster"
+          env: "dev"
+  

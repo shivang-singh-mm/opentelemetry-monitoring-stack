@@ -1,0 +1,37 @@
+apiVersion: 1
+
+datasources:
+- name: Prometheus
+  type: prometheus
+  uid: prometheus
+  access: proxy
+  orgId: 1
+  url: ${GRAFANA_PROMETHEUS_URL}
+  basicAuth: false
+  isDefault: true
+  version: 1
+  editable: false
+  jsonData:
+    httpMethod: GET
+- name: Tempo
+  type: tempo
+  access: proxy
+  orgId: 1
+  url: ${GRAFANA_TEMPO_URL}
+  basicAuth: false
+  isDefault: false
+  version: 1
+  editable: false
+  apiVersion: 1
+  uid: tempo
+  jsonData:
+    httpMethod: GET
+    serviceMap:
+      datasourceUid: prometheus
+
+- name: k6influxdb
+  type: influxdb
+  access: proxy
+  database: k6
+  url: ${GRAFANA_INFLUXDB_URL}
+  isDefault: false

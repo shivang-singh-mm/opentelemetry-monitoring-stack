@@ -1,0 +1,24 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        # endpoint: 'host.docker.internal:5899'
+      http: 
+
+processors:
+ batch:
+
+exporters:
+  otlp:
+    endpoint: ${TEMPO_BASE_URL}
+    tls:
+      insecure: true
+  prometheus:
+    endpoint: "0.0.0.0:8889"
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlp]

@@ -1,0 +1,38 @@
+version: '3.4'
+
+networks:
+  traces-network:
+    name: traces/feature-v1
+    external: true
+  k6:
+  grafana:
+
+
+
+
+services:
+
+  influxdb:
+    image: influxdb:1.8
+    networks:
+      - k6
+      - grafana
+      - traces-network
+    ports:
+      - "8086:8086"
+    environment:
+      - INFLUXDB_DB=k6
+
+
+  k6:
+    image: grafana/k6:latest
+    networks:
+      - k6
+      - traces-network
+    ports:
+      - "6565:6565"
+    environment:
+      - K6_OUT=influxdb=http://influxdb:8086/k6
+      - TARGET_VUS=100
+    volumes:
+      - ./script:/script
